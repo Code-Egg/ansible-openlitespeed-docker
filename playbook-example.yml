@@ -1,0 +1,8 @@
+---
+- hosts: server
+    - name: test connection
+      ping:
+      register: message
+    - name: print debug message
+      debug:
+        msg: "{{ message }}"

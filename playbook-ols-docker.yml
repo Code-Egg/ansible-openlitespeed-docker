@@ -2,17 +2,10 @@
 - hosts: server
   become: true
   roles:
-    - { role: pip, become: yes }  
+    - { role: docker, become: yes }
   vars:
     - destdir: /opt/openlitespeed-docker
   tasks:
-    - name: test connection
-      ping:
-      register: message
-    - name: print debug message
-      debug:
-        msg: "{{ message }}"
-
     - name: Download the OLS Docker GitRepo
       become: yes
       git:

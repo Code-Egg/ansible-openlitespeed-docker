@@ -1,3 +1,5 @@
 ---
 dependencies:
   - { role: pip, become: yes }
+  - { role: curl, become: yes }
+  - { role: virtualenv, become: yes }
