@@ -1,0 +1,23 @@
+---
+- hosts: server
+  become: true
+  roles:
+    - { role: pip, become: yes }  
+  vars:
+    - destdir: /opt/openlitespeed-docker
+  tasks:
+    - name: test connection
+      ping:
+      register: message
+    - name: print debug message
+      debug:
+        msg: "{{ message }}"
+
+    - name: Download the OLS Docker GitRepo
+      become: yes
+      git:
+         repo: https://github.com/litespeedtech/ols-docker-env.git
+         dest: "{{ destdir }}"
+         version: v1.6.15
+         clone: yes
+         update: no
