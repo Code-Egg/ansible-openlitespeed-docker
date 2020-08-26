@@ -4,13 +4,13 @@
   roles:
     - { role: docker, become: yes }
   vars:
-    - destdir: /opt/openlitespeed-docker
+    - ols-docker-dir: /opt/openlitespeed-docker
   tasks:
     - name: Download the OLS Docker GitRepo
       become: yes
       git:
          repo: https://github.com/litespeedtech/ols-docker-env.git
-         dest: "{{ destdir }}"
+         dest: "{{ ols-docker-dir }}"
          version: v1.6.15
          clone: yes
          update: no
