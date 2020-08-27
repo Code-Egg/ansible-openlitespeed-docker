@@ -1,12 +1,4 @@
 ---
-- name: Check if virtualenv is already installed
-  command: virtualenv --version
-  ignore_errors: true
-  changed_when: false
-  register: virtualenv_is_installed
+- name: install virtualenv if necessary
+  raw: test -e /usr/bin/virtualenv || apt update && apt install -y virtualenv
 
-- name: Install virtualenv
-  apt:
-    name: virtualenv
-    update_cache: yes
-  when: virtualenv_is_installed.rc != 0

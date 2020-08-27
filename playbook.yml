@@ -1,0 +1,6 @@
+---
+- hosts: server
+  strategy: linear
+
+- import_playbook: playbook-env.yml
+- import_playbook: playbook-ols-docker.yml

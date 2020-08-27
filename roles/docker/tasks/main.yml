@@ -1,27 +1,25 @@
 ---
-    - name: Install required system packages
-      apt: name={{ item }} update_cache=yes
-      loop: [ 'apt-transport-https', 'ca-certificates', 'software-properties-common', 'python3-setuptools']
+- name: Install required system packages
+  apt: 
+    update_cache: yes
+    name: 
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+      - python3-setuptools
 
-    - name: Check if docker is already installed
-      command: docker --version
-      ignore_errors: true
-      changed_when: false
-      register: docker_is_installed
+- name: install docker if necessary
+  raw: test -e /usr/bin/docker || apt install -y docker.io
 
-    - name: Install Docker
-      apt: update_cache=yes name=docker.io
-      when: docker_is_installed.rc != 0
+- name: Check if docker-compose is already installed
+  command: docker-compose --version
+  ignore_errors: true
+  changed_when: false
+  register: docker_compose_is_installed
 
-    - name: Check if docker-compose is already installed
-      command: docker-compose --version
-      ignore_errors: true
-      changed_when: false
-      register: docker_compose_is_installed
-
-    - name: Install docker-compose
-      get_url: 
-        url : "{{ docker_compose_url }}"
-        dest: /usr/local/bin/docker-compose
-        mode: 'u+x,g+x'
-      when: docker_compose_is_installed.rc != 0  
+- name: Install docker-compose
+  get_url: 
+    url : "{{ docker_compose_url }}"
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
+  when: docker_compose_is_installed.rc != 0  
