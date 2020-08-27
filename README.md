@@ -25,4 +25,4 @@ Open a terminal, cd to the folder `/opt/openlitespeed-docker` in which docker-co
 ```
 docker-compose up -d
 ```
-123
+123456
