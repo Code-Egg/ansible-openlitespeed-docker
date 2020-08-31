@@ -47,12 +47,15 @@
         dest: "/usr/local/lsws/conf/vhosts/Example/vhconf.conf"
         force: yes
         owner: "lsadm"
-      #notify: Restart openlitespeed
       tags: [ openlitespeed ]
 
     - name: reinstall openlitespeed
       shell: DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confdef' \
         -o Dpkg::Options::='--force-confold' -y install --reinstall openlitespeed
+
+    - name: Install LiteSpeed repository
+      shell: rm -rf /tmp/lshttpd/
+      notify: Restart openlitespeed
 
   # MySQL Configuration
     - name: Set the root password
