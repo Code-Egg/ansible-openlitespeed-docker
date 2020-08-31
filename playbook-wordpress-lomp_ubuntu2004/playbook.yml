@@ -11,6 +11,7 @@
 
     - name: Install LiteSpeed repository
       shell: wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
+      warn: false
 
     - name: Install LOMP Packages
       apt: name={{ item }} update_cache=yes state=latest
@@ -38,7 +39,6 @@
         dest: "/usr/local/lsws/conf/httpd_config.conf"
         force: yes
         owner: "lsadm"
-      #notify: Restart openlitespeed
       tags: [ openlitespeed ]
 
     - name: Set up openlitespeed VirtualHost
@@ -50,11 +50,9 @@
       #notify: Restart openlitespeed
       tags: [ openlitespeed ]
 
-    - name: remove openlitespeed
-      apt: name=openlitespeed state=absent
-
-    - name: install openlitespeed
-      apt: name=openlitespeed state=present
+    - name: reinstall openlitespeed
+      shell: DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confdef' \
+        -o Dpkg::Options::='--force-confold' -y install --reinstall openlitespeed
 
   # MySQL Configuration
     - name: Set the root password

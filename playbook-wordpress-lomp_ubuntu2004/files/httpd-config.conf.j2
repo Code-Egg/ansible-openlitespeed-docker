@@ -69,7 +69,7 @@ tuning  {
 fileAccessControl  {
   followSymbolLink        1
   checkSymbolLink         0
-  requiredPermissionMask  000
+  requiredPermissionMask  000 
   restrictedPermissionMask 000
 }
 
@@ -215,13 +215,13 @@ virtualhost Example {
 }
 
 listener HTTPS {
-  address                 *:{{ https }}
+  address                 *:{{ https_port }}
   secure                  1
   map                     Example *
 }
 
 listener HTTP {
-  address                 *:{{ http }}
+  address                 *:{{ http_port }}
   secure                  0
   map                     Example *
 }
