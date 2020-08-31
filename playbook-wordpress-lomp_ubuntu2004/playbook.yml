@@ -34,15 +34,19 @@
 
     - name: Set up openlitespeed ServerConf
       template:
-        src: "files/openlitespeed.conf.j2"
-        dest: "/usr/local/lsws/conf/vhosts/Example/vhconf.conf"
+        src: "files/httpd-config.conf.j2"
+        dest: "/usr/local/lsws/conf/httpd_config.conf"
+        force: yes
+        owner: "lsadm"
       #notify: Restart openlitespeed
       tags: [ openlitespeed ]
 
     - name: Set up openlitespeed VirtualHost
       template:
-        src: "files/openlitespeed.conf.j2"
+        src: "files/vhconf.conf.j2"
         dest: "/usr/local/lsws/conf/vhosts/Example/vhconf.conf"
+        force: yes
+        owner: "lsadm"
       #notify: Restart openlitespeed
       tags: [ openlitespeed ]
 
@@ -102,12 +106,12 @@
         port: "{{ http_port }}"
         proto: tcp
       tags: [ system ]
-    - name: "UFW - Allow HTTPS on port {{ http_port }}"
-          ufw:
-            rule: allow
-            port: "{{ https_port }}"
-            proto: tcp
-          tags: [ system ]
+    - name: "UFW - Allow HTTPS on port {{ https_port }}"
+      ufw:
+        rule: allow
+        port: "{{ https_port }}"
+        proto: tcp
+      tags: [ system ]
 
   # WordPress Configuration
     - name: Download and unpack latest WordPress
